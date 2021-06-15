@@ -1,7 +1,8 @@
 # Simple Geocoder with Cache using Google Maps API
 
 Uses PSR SimpleCache interface to allow for query results to be stored.
-This is a standalone library, no Laravel or other Frameworks, to keep it as simple and lightweight as possible. 
+
+This is a standalone library, no Laravel or other Frameworks, to keep it as simple and lightweight as possible, but rest assured, it'll work with Laravel just fine :)
 
 ## Installation
 
@@ -16,8 +17,8 @@ composer require perfacilis/geocoder
 See: https://console.cloud.google.com/apis/credentials
 
 Create a new API key, ensure to:
-1. Restrict it to your IP(s) only
-2. Restrict it to use the Geocoding API only.
+1. restrict it to your IP(s) only;
+2. restrict it to use the Geocoding API only.
 
 If you're using the Google Maps JS API you'll probably have to create a different key because that key should be restricted to HTTP referers (web sites).
 
@@ -27,7 +28,7 @@ If you're using the Google Maps JS API you'll probably have to create a differen
 $api_key = '123foo456bar';
 
 $geocoder = new Perfacilis\Geocoder\Geocoder($api_key);
-$result = $geocoder->geocode('Street 12, 1234AB, Place, Country');
+$result = $geocoder->geocode('Street 12, 1234AB, Residence, Country');
 
 $lat = $result->getLat();
 $lng = $result->getLng();
@@ -41,7 +42,7 @@ Since Google's Geocoding API is on a Pay-Per-Use basis, it's recommended to impl
 $api_key = '123foo456bar';
 $cacher = new GeocoderCache();
 
-$geocoder = new Geocoder($api_key);
+$geocoder = new Perfacilis\Geocoder\Geocoder($api_key);
 $geocoder->setCacheInterface($cacher);
 
 $result = $geocoder->query(...);
