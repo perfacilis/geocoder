@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Perfacilis\\": "src/Perfacilis"
+            "Perfacilis\\Geocoder\\": "src"
         }
     }
 }
