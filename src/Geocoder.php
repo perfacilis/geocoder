@@ -87,11 +87,7 @@ class Geocoder
 
     private function queryEndpoint(array $params): array
     {
-        // Append api key
-        $params['key'] = $this->api_key;
-
-        // Build URL with query parameters
-        $url = self::ENDPOINT . '?' . http_build_query($params);
+        $url = $this->buildEndpointUrl($params);
 
         $ch = curl_init();
         curl_setopt_array($ch, [
@@ -116,7 +112,25 @@ class Geocoder
             throw new Exception(sprintf('Geocoder api returned error: %s', $result['error_message']));
         }
 
+        if (empty($result['items'])) {
+            $status = $result['status'] ?: 'no results';
+            throw new Exception(sprintf(
+                'Geocode api returned %s for query %s',
+                $status,
+                var_export($params, true)
+            ));
+        }
+
         return $result;
+    }
+
+    private function buildEndpointUrl(array $params): string
+    {
+        // Append api key
+        $params['key'] = $this->api_key;
+
+        // Build URL with query parameters
+        return self::ENDPOINT . '?' . http_build_query($params);
     }
 
     /**
