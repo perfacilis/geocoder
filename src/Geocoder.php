@@ -112,7 +112,7 @@ class Geocoder
             throw new Exception(sprintf('Geocoder api returned error: %s', $result['error_message']));
         }
 
-        if (empty($result['items'])) {
+        if (empty($result['results'])) {
             $status = $result['status'] ?: 'no results';
             throw new Exception(sprintf(
                 'Geocode api returned %s for query %s',
