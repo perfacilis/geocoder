@@ -41,6 +41,14 @@ class Geocoder
         return $this->getResult($params);
     }
 
+    /**
+     * @param mixed $value
+     */
+    public function setCurlOption(int $option, $value): void
+    {
+        $this->curl_options[$option] = $value;
+    }
+
     private const ENDPOINT = 'https://maps.googleapis.com/maps/api/geocode/json';
 
     /**
@@ -57,6 +65,13 @@ class Geocoder
      * @var int
      */
     private $cache_ttl = 0;
+
+    /**
+     * @var array
+     */
+    private $curl_options = [
+        CURLOPT_TIMEOUT => 10,
+    ];
 
     private function getResult(array $params): Result
     {
@@ -90,10 +105,9 @@ class Geocoder
         $url = $this->buildEndpointUrl($params);
 
         $ch = curl_init();
-        curl_setopt_array($ch, [
+        curl_setopt_array($ch, $this->curl_options + [
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_URL => $url,
-            CURLOPT_TIMEOUT => 10,
-            CURLOPT_RETURNTRANSFER => true
         ]);
 
         $json = curl_exec($ch);
